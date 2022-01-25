@@ -1,4 +1,4 @@
-package com.azmetov.breweries.data.models
+package com.azmetov.breweries.data.network.models
 
 import com.google.gson.annotations.SerializedName
 

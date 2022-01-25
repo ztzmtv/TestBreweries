@@ -1,4 +1,4 @@
-package com.azmetov.breweries.data
+package com.azmetov.breweries.data.network
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

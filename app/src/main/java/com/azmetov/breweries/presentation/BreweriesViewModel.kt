@@ -1,13 +1,16 @@
 package com.azmetov.breweries.presentation
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.azmetov.breweries.data.repository.BreweriesRepositoryImpl
 import com.azmetov.breweries.domain.LoadDataUseCase
 import kotlinx.coroutines.launch
 
-class BreweriesViewModel : ViewModel() {
-    private val repository = BreweriesRepositoryImpl()
+class BreweriesViewModel(
+    application: Application
+) : AndroidViewModel(application) {
+    private val repository = BreweriesRepositoryImpl(application)
 
     private val loadDataUseCase = LoadDataUseCase(repository)
 

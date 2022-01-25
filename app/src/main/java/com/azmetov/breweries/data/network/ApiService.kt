@@ -1,6 +1,6 @@
-package com.azmetov.breweries.data
+package com.azmetov.breweries.data.network
 
-import com.azmetov.breweries.data.models.BreweryDto
+import com.azmetov.breweries.data.network.models.BreweryDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
