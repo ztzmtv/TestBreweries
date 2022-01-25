@@ -1,8 +1,10 @@
 package com.azmetov.breweries.domain
 
+import androidx.lifecycle.LiveData
+
 interface BreweriesRepository {
 
-    fun getBreweriesList(): List<BreweryInfo>
+    fun getBreweriesList(): LiveData<List<BreweryInfo>>
 
     fun getBreweryInfo(id: String): BreweryInfo
 

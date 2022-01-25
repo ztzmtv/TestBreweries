@@ -1,9 +1,11 @@
 package com.azmetov.breweries.data.repository
 
 import android.app.Application
-import com.azmetov.breweries.data.network.ApiFactory
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import com.azmetov.breweries.data.database.AppDatabase
 import com.azmetov.breweries.data.mapper.BreweryMapper
+import com.azmetov.breweries.data.network.ApiFactory
 import com.azmetov.breweries.domain.BreweriesRepository
 import com.azmetov.breweries.domain.BreweryInfo
 
@@ -17,12 +19,18 @@ class BreweriesRepositoryImpl(
 
     private val mapper = BreweryMapper()
 
-    override fun getBreweriesList(): List<BreweryInfo> {
-        TODO("Not yet implemented")
+    override fun getBreweriesList(): LiveData<List<BreweryInfo>> {
+        return Transformations.map(breweryInfoDao.getBreweriesList()) {
+            it.map {
+                mapper.mapDbModelToEntity(it)
+            }
+        }
     }
 
     override fun getBreweryInfo(id: String): BreweryInfo {
-        TODO("Not yet implemented")
+        return mapper.mapDbModelToEntity(
+            breweryInfoDao.getBreweryInfo(id)
+        )
     }
 
     override suspend fun loadData() {
@@ -34,7 +42,5 @@ class BreweriesRepositoryImpl(
             breweryInfoDao.insertBreweriesList(breweryInfoDbModel)
         } catch (e: Exception) {
         }
-
-
     }
 }

@@ -6,7 +6,6 @@ import com.azmetov.breweries.domain.BreweryInfo
 
 class BreweryMapper {
 
-
     fun mapDtoToDbModel(dto: BreweryDto) = BreweryInfoDbModel(
         id = dto.id,
         country = dto.country,

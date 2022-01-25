@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "breweries")
 data class BreweryInfoDbModel(
+
     @PrimaryKey
     val id: String,
     val country: String?,
