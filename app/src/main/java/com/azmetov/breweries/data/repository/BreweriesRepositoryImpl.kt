@@ -38,12 +38,16 @@ class BreweriesRepositoryImpl(
 
     override suspend fun loadData() {
         try {
-            val breweriesListDto = apiService.getListOfBreweries(10)
+            val breweriesListDto = apiService.getListOfBreweries(NUMBER_OF_LOADING_ITEMS)
             val breweryInfoDbModel = breweriesListDto.map {
                 mapper.mapDtoToDbModel(it)
             }
             breweryInfoDao.insertBreweriesList(breweryInfoDbModel)
         } catch (e: Exception) {
         }
+    }
+
+    companion object {
+        private const val NUMBER_OF_LOADING_ITEMS = 10
     }
 }

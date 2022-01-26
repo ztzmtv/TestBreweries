@@ -14,7 +14,7 @@ data class BreweryDto(
 	val city: String?,
 
 	@field:SerializedName("address_2")
-	val address2: String?,
+	val address: String?,
 
 	@field:SerializedName("latitude")
 	val latitude: String?,
