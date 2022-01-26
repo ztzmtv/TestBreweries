@@ -3,4 +3,6 @@
     <string name="brewery_country_template">Country: %s</string>
     <string name="brewery_type_template">Brewery Type: %s</string>
     <string name="brewery_name_template">Name: %s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
