@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Breweries">
         <activity
-            android:name=".presentation.BreweriesListActivity"
+            android:name=".presentation.BreweriesActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

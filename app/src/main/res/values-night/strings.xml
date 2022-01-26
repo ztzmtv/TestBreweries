@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Breweries</string>
     <string name="brewery_country_template">Country: %s</string>
     <string name="brewery_type_template">Brewery Type: %s</string>
     <string name="brewery_name_template">Name: %s</string>

@@ -9,5 +9,4 @@ data class BreweryInfo(
     val websiteUrl: String?,
     val phone: String?,
     val name: String?,
-
-    )
+)

@@ -2,10 +2,8 @@ package com.azmetov.breweries.presentation
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.azmetov.breweries.data.repository.BreweriesRepositoryImpl
-import com.azmetov.breweries.domain.BreweryInfo
 import com.azmetov.breweries.domain.GetBreweriesListUseCase
 import com.azmetov.breweries.domain.GetBreweryInfoUseCase
 import com.azmetov.breweries.domain.LoadDataUseCase
@@ -22,10 +20,13 @@ class BreweriesViewModel(
 
     val breweriesList = getBreweriesListUseCase()
 
+    fun getBreweryInfo(id: String) = getBreweryInfoUseCase(id)
+
     init {
         viewModelScope.launch {
             loadDataUseCase()
         }
-
     }
+
+
 }
