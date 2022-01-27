@@ -1,7 +1,6 @@
 package com.azmetov.breweries.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,18 +52,10 @@ class BreweriesFragment : Fragment() {
         binding.rvBreweries.adapter = adapter
         viewModel.breweriesList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
-            log(it.toString())
         }
     }
 
-
-    private fun log(string: String) {
-        Log.d(TAG, string)
-    }
-
     companion object {
-        private const val TAG = "BreweriesActivity_TAG"
-
         fun newInstance(): Fragment {
             return BreweriesFragment()
         }

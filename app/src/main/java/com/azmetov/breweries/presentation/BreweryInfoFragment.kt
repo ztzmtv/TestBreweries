@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.azmetov.breweries.R
@@ -34,19 +35,29 @@ class BreweryInfoFragment : Fragment() {
         viewModel.getBreweryInfo(id)
         viewModel.breweryItem.observe(viewLifecycleOwner) {
             with(binding) {
-                val breweryNameTemplate =
-                    requireContext().resources.getString(R.string.brewery_info_name_template)
-                tvBreweryInfoName.text = String.format(breweryNameTemplate, it.name)
-                val breweryCityTemplate =
-                    requireContext().resources.getString(R.string.brewery_info_city_template)
-                tvBreweryInfoCity.text = String.format(breweryCityTemplate, it.city)
-                val breweryPhoneTemplate =
-                    requireContext().resources.getString(R.string.brewery_info_phone_template)
-                tvBreweryInfoPhone.text = String.format(breweryPhoneTemplate, it.phone)
+                setBreweryInfoText(
+                    R.string.brewery_info_name_template,
+                    tvBreweryInfoName,
+                    it.name
+                )
+                setBreweryInfoText(
+                    R.string.brewery_info_city_template,
+                    tvBreweryInfoCity,
+                    it.city
+                )
+                setBreweryInfoText(
+                    R.string.brewery_info_phone_template,
+                    tvBreweryInfoPhone,
+                    it.phone
+                )
             }
         }
     }
 
+    private fun setBreweryInfoText(templateId: Int, textView: TextView, item: String?) {
+        val template = requireContext().resources.getString(templateId)
+        textView.text = String.format(template, item ?: SYMBOL_IF_EMPTY)
+    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -55,6 +66,7 @@ class BreweryInfoFragment : Fragment() {
 
     companion object {
         private const val EXTRA_ID = "id"
+        private const val SYMBOL_IF_EMPTY = "-"
 
         fun newInstance(id: String): Fragment {
             return BreweryInfoFragment().apply {
