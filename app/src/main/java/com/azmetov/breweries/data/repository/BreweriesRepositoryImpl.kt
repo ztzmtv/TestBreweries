@@ -2,7 +2,6 @@ package com.azmetov.breweries.data.repository
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.azmetov.breweries.data.database.AppDatabase
 import com.azmetov.breweries.data.mapper.BreweryMapper
@@ -21,19 +20,17 @@ class BreweriesRepositoryImpl(
     private val mapper = BreweryMapper()
 
     override fun getBreweriesList(): LiveData<List<BreweryInfo>> {
-        return Transformations.map(breweryInfoDao.getBreweriesList()) {
-            it.map {
+        return Transformations.map(breweryInfoDao.getBreweriesList()) { ListOfBreweryInfo ->
+            ListOfBreweryInfo.map {
                 mapper.mapDbModelToEntity(it)
             }
         }
     }
 
-    override fun getBreweryInfo(id: String): LiveData<BreweryInfo> {
-        val breweryInfoLiveData = MutableLiveData<BreweryInfo>()
-        breweryInfoLiveData.value = mapper.mapDbModelToEntity(
+    override suspend fun getBreweryInfo(id: String): BreweryInfo {
+        return mapper.mapDbModelToEntity(
             breweryInfoDao.getBreweryInfo(id)
         )
-        return breweryInfoLiveData
     }
 
     override suspend fun loadData() {

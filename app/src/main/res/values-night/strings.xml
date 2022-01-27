@@ -3,4 +3,7 @@
     <string name="brewery_country_template">Country: %s</string>
     <string name="brewery_type_template">Brewery Type: %s</string>
     <string name="brewery_name_template">Name: %s</string>
+    <string name="brewery_info_city_template">City: %s</string>
+    <string name="brewery_info_name_template">Name: %s</string>
+    <string name="brewery_info_phone_template">Phone: %s</string>
 </resources>

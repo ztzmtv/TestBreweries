@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 
 class GetBreweryInfoUseCase(private val repository: BreweriesRepository) {
 
-    operator fun invoke(id: String): LiveData<BreweryInfo> {
+    operator suspend fun invoke(id: String): BreweryInfo {
         return repository.getBreweryInfo(id)
     }
 

@@ -6,7 +6,7 @@ interface BreweriesRepository {
 
     fun getBreweriesList(): LiveData<List<BreweryInfo>>
 
-    fun getBreweryInfo(id: String): LiveData<BreweryInfo>
+    suspend fun getBreweryInfo(id: String): BreweryInfo
 
     suspend fun loadData()
 

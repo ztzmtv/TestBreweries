@@ -1,46 +1,3 @@
-//package com.azmetov.breweries.presentation
-//
-//import android.util.Log
-//import androidx.fragment.app.Fragment
-//import androidx.lifecycle.ViewModelProvider
-//
-//class BreweriesFragment : Fragment() {
-//
-//
-//    val viewModel by lazy {
-//        ViewModelProvider(this)[BreweriesViewModel::class.java]
-//    }
-//    private val binding by lazy {
-//        ActivityBreweriesBinding.inflate(layoutInflater)
-//    }
-//
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(binding.root)
-//
-//        val adapter = BreweryAdapter(this)
-//        binding.rvBreweries.adapter = adapter
-//        viewModel.breweriesList.observe(this) {
-//            adapter.submitList(it)
-//            log(it.toString())
-//
-//        }
-//
-//    }
-//
-//    private fun log(string: String) {
-//        Log.d(TAG, string)
-//    }
-//
-//    companion object {
-//        private const val TAG = "BreweriesActivity_TAG"
-//
-//        fun newInstance
-//
-//
-//    }
-//}
 package com.azmetov.breweries.presentation
 
 import android.os.Bundle
@@ -50,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.azmetov.breweries.R
 import com.azmetov.breweries.databinding.FragmentBreweriesBinding
+import com.azmetov.breweries.domain.BreweryInfo
 import com.azmetov.breweries.presentation.adapters.BreweryAdapter
 
 class BreweriesFragment : Fragment() {
@@ -58,7 +17,7 @@ class BreweriesFragment : Fragment() {
     private val binding: FragmentBreweriesBinding
         get() = _binding ?: throw RuntimeException("FragmentBreweriesBinding is null")
 
-    val viewModel by lazy {
+    private val viewModel by lazy {
         ViewModelProvider(this)[BreweriesViewModel::class.java]
     }
 
@@ -76,11 +35,21 @@ class BreweriesFragment : Fragment() {
         _binding = null
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = BreweryAdapter(requireContext())
+        adapter.onBreweryClickListener = object : BreweryAdapter.OnBreweryClickListener {
+            override fun onBreweryClick(brewery: BreweryInfo) {
+                parentFragmentManager.beginTransaction()
+                    .replace(
+                        R.id.breweries_fragment_container,
+                        BreweryInfoFragment.newInstance(brewery.id)
+                    )
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
         binding.rvBreweries.adapter = adapter
         viewModel.breweriesList.observe(viewLifecycleOwner) {
             adapter.submitList(it)

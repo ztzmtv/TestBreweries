@@ -27,12 +27,4 @@ class BreweriesActivity : AppCompatActivity() {
             )
             .commit()
     }
-
-    private fun log(string: String) {
-        Log.d(TAG, string)
-    }
-
-    companion object {
-        private const val TAG = "BreweriesActivity_TAG"
-    }
 }

@@ -13,7 +13,7 @@ interface BreweryInfoDao {
     fun getBreweriesList(): LiveData<List<BreweryInfoDbModel>>
 
     @Query("SELECT * FROM breweries WHERE id == :id LIMIT 1")
-    fun getBreweryInfo(id: String): BreweryInfoDbModel
+    suspend fun getBreweryInfo(id: String): BreweryInfoDbModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBreweriesList(priceList: List<BreweryInfoDbModel>)
