@@ -45,6 +45,6 @@ class BreweriesRepositoryImpl(
     }
 
     companion object {
-        private const val NUMBER_OF_LOADING_ITEMS = 10
+        private const val NUMBER_OF_LOADING_ITEMS = 50
     }
 }

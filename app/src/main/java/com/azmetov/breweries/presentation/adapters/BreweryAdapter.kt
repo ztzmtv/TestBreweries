@@ -34,6 +34,7 @@ class BreweryAdapter(
             val breweryCountryTemplate =
                 context.resources.getString(R.string.brewery_country_template)
             tvBreweryCountry.text = String.format(breweryCountryTemplate, brewery.country)
+
             root.setOnClickListener {
                 onBreweryClickListener?.onBreweryClick(brewery)
             }

@@ -14,7 +14,7 @@ class BreweryInfoFragment : Fragment() {
     private val binding: FragmentBreweryInfoBinding
         get() = _binding ?: throw RuntimeException("BreweryInfoFragment is null")
 
-    val viewModel by lazy {
+    private val viewModel by lazy {
         ViewModelProvider(this)[BreweriesViewModel::class.java]
     }
 
