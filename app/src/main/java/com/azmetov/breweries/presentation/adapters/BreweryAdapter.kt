@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.azmetov.breweries.R
 import com.azmetov.breweries.databinding.BreweryItemBinding
-import com.azmetov.breweries.domain.BreweryInfo
+import com.azmetov.breweries.domain.BreweryItem
 
 class BreweryAdapter(
     private val context: Context
-) : ListAdapter<BreweryInfo, BreweryViewHolder>(BreweryItemDiffCallback) {
+) : ListAdapter<BreweryItem, BreweryViewHolder>(BreweryItemDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BreweryViewHolder {
         val binding =
@@ -42,7 +42,7 @@ class BreweryAdapter(
     }
 
     interface OnBreweryClickListener {
-        fun onBreweryClick(brewery: BreweryInfo)
+        fun onBreweryClick(brewery: BreweryItem)
     }
 
     var onBreweryClickListener: OnBreweryClickListener? = null

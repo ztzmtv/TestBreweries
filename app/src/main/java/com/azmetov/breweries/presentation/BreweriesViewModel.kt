@@ -6,10 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.azmetov.breweries.data.repository.BreweriesRepositoryImpl
-import com.azmetov.breweries.domain.BreweryInfo
-import com.azmetov.breweries.domain.GetBreweriesListUseCase
-import com.azmetov.breweries.domain.GetBreweryInfoUseCase
-import com.azmetov.breweries.domain.LoadDataUseCase
+import com.azmetov.breweries.domain.*
 import kotlinx.coroutines.launch
 
 class BreweriesViewModel(
@@ -20,17 +17,24 @@ class BreweriesViewModel(
     private val loadDataUseCase = LoadDataUseCase(repository)
     private val getBreweriesListUseCase = GetBreweriesListUseCase(repository)
     private val getBreweryInfoUseCase = GetBreweryInfoUseCase(repository)
+    private val deleteBreweryItemUseCase = DeleteBreweryItemUseCase(repository)
 
     val breweriesList = getBreweriesListUseCase()
 
-    private val _breweryItem = MutableLiveData<BreweryInfo>()
-    val breweryItem: LiveData<BreweryInfo>
+    private val _breweryItem = MutableLiveData<BreweryItem>()
+    val breweryItem: LiveData<BreweryItem>
         get() = _breweryItem
 
     fun getBreweryInfo(id: String) {
         viewModelScope.launch {
             val item = getBreweryInfoUseCase(id)
             _breweryItem.value = item
+        }
+    }
+
+    fun deleteBreweryItem(breweryItem: BreweryItem) {
+        viewModelScope.launch {
+            deleteBreweryItemUseCase(breweryItem)
         }
     }
 

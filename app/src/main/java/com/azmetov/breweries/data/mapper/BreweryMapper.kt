@@ -2,7 +2,7 @@ package com.azmetov.breweries.data.mapper
 
 import com.azmetov.breweries.data.database.BreweryInfoDbModel
 import com.azmetov.breweries.data.network.models.BreweryDto
-import com.azmetov.breweries.domain.BreweryInfo
+import com.azmetov.breweries.domain.BreweryItem
 
 class BreweryMapper {
 
@@ -17,7 +17,7 @@ class BreweryMapper {
         name = dto.name
     )
 
-    fun mapDbModelToEntity(dbModel: BreweryInfoDbModel) = BreweryInfo(
+    fun mapDbModelToEntity(dbModel: BreweryInfoDbModel) = BreweryItem(
         id = dbModel.id,
         country = dbModel.country,
         breweryType = dbModel.breweryType,

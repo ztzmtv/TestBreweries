@@ -1,6 +1,6 @@
 package com.azmetov.breweries.domain
 
-data class BreweryInfo(
+data class BreweryItem(
     val id: String,
     val country: String?,
     val breweryType: String?,

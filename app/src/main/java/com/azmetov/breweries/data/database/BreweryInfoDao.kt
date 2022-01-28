@@ -15,6 +15,9 @@ interface BreweryInfoDao {
     @Query("SELECT * FROM breweries WHERE id == :id LIMIT 1")
     suspend fun getBreweryInfo(id: String): BreweryInfoDbModel
 
+    @Query("DELETE FROM breweries WHERE id=:id")
+    suspend fun deleteBreweryItem(id: String)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBreweriesList(priceList: List<BreweryInfoDbModel>)
 

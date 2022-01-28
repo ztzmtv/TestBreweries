@@ -7,7 +7,7 @@ import com.azmetov.breweries.data.database.AppDatabase
 import com.azmetov.breweries.data.mapper.BreweryMapper
 import com.azmetov.breweries.data.network.ApiFactory
 import com.azmetov.breweries.domain.BreweriesRepository
-import com.azmetov.breweries.domain.BreweryInfo
+import com.azmetov.breweries.domain.BreweryItem
 
 class BreweriesRepositoryImpl(
     private val application: Application
@@ -19,7 +19,7 @@ class BreweriesRepositoryImpl(
 
     private val mapper = BreweryMapper()
 
-    override fun getBreweriesList(): LiveData<List<BreweryInfo>> {
+    override fun getBreweriesList(): LiveData<List<BreweryItem>> {
         return Transformations.map(breweryInfoDao.getBreweriesList()) { ListOfBreweryInfo ->
             ListOfBreweryInfo.map {
                 mapper.mapDbModelToEntity(it)
@@ -27,7 +27,7 @@ class BreweriesRepositoryImpl(
         }
     }
 
-    override suspend fun getBreweryInfo(id: String): BreweryInfo {
+    override suspend fun getBreweryInfo(id: String): BreweryItem {
         return mapper.mapDbModelToEntity(
             breweryInfoDao.getBreweryInfo(id)
         )
@@ -42,6 +42,10 @@ class BreweriesRepositoryImpl(
             breweryInfoDao.insertBreweriesList(breweryInfoDbModel)
         } catch (e: Exception) {
         }
+    }
+
+    override suspend fun deleteBreweryItem(brewery: BreweryItem) {
+        breweryInfoDao.deleteBreweryItem(brewery.id)
     }
 
     companion object {
