@@ -40,6 +40,23 @@ class BreweriesFragment : Fragment() {
         val adapter = BreweryAdapter(requireContext())
         adapter.onBreweryClickListener = object : BreweryAdapter.OnBreweryClickListener {
             override fun onBreweryClick(brewery: BreweryInfo) {
+                if (isOnPaneMode()) {
+                    launchFragmentOnPaneMode(brewery)
+                } else {
+                    launchFragmentOnLandMode(brewery)
+                }
+            }
+
+            private fun launchFragmentOnLandMode(brewery: BreweryInfo) {
+                childFragmentManager.beginTransaction()
+                    .replace(
+                        R.id.breweries_fragment_container_land,
+                        BreweryInfoFragment.newInstance(brewery.id)
+                    )
+                    .commit()
+            }
+
+            private fun launchFragmentOnPaneMode(brewery: BreweryInfo) {
                 parentFragmentManager.beginTransaction()
                     .replace(
                         R.id.breweries_fragment_container,
@@ -53,6 +70,10 @@ class BreweriesFragment : Fragment() {
         viewModel.breweriesList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
+    }
+
+    private fun isOnPaneMode(): Boolean {
+        return binding.breweriesFragmentContainerLand == null
     }
 
     companion object {
