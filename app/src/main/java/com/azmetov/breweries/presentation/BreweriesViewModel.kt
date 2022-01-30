@@ -1,6 +1,7 @@
 package com.azmetov.breweries.presentation
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -29,6 +30,7 @@ class BreweriesViewModel(
         viewModelScope.launch {
             val item = getBreweryInfoUseCase(id)
             _breweryItem.value = item
+            log("getBreweryInfo ${_breweryItem.value}")
         }
     }
 
@@ -44,5 +46,7 @@ class BreweriesViewModel(
         }
     }
 
-
+    private fun log(string: String) {
+        Log.d("BreweriesViewModel_TAG", string)
+    }
 }

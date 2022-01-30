@@ -22,6 +22,7 @@ class BreweriesFragment : Fragment() {
     private val viewModel by lazy {
         ViewModelProvider(this)[BreweriesViewModel::class.java]
     }
+    private var id: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,22 +33,53 @@ class BreweriesFragment : Fragment() {
         return binding.root
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-        log("onDestroy")
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        subscribeId()
         val adapter = BreweryAdapter(requireContext())
+        setupAdapter(adapter)
+        setupSwipeToDelete(adapter)
+    }
+
+    private fun subscribeId() {
+        viewModel.breweryItem.observe(viewLifecycleOwner) {
+            id = it.id
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        log("onResume")
+        setupItemInLandMode()
+    }
+
+    private fun setupItemInLandMode() {
+        log("setupItemInLandMode")
+        if (!isOnPortraitMode()) {
+            viewModel.breweryItem.observe(viewLifecycleOwner) {
+                launchFragmentOnLandscapeMode(it)
+            }
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        id?.let {
+            outState.putString(KEY_ID, id)
+        }
+    }
+
+
+    private fun setupAdapter(adapter: BreweryAdapter) {
         adapter.onBreweryClickListener = object : BreweryAdapter.OnBreweryClickListener {
             override fun onBreweryClick(brewery: BreweryItem) {
-                if (isOnPaneMode()) {
-                    launchFragmentOnPaneMode(brewery)
+                if (isOnPortraitMode()) {
+                    launchFragmentOnPortraitMode(brewery)
                 } else {
-                    launchFragmentOnLandMode(brewery)
+                    launchFragmentOnLandscapeMode(brewery)
                 }
             }
         }
@@ -55,7 +87,9 @@ class BreweriesFragment : Fragment() {
         viewModel.breweriesList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
+    }
 
+    private fun setupSwipeToDelete(adapter: BreweryAdapter) {
         val swipeToDeleteCallback = object : ItemTouchHelper.SimpleCallback(
             0,
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
@@ -78,20 +112,21 @@ class BreweriesFragment : Fragment() {
         swipeToDeleteHelper.attachToRecyclerView(binding.rvBreweries)
     }
 
-    private fun isOnPaneMode(): Boolean {
+    private fun isOnPortraitMode(): Boolean {
         return binding.breweriesFragmentContainerLand == null
     }
 
-    private fun launchFragmentOnLandMode(brewery: BreweryItem) {
+    private fun launchFragmentOnLandscapeMode(brewery: BreweryItem) {
         childFragmentManager.beginTransaction()
             .replace(
                 R.id.breweries_fragment_container_land,
                 BreweryInfoFragment.newInstance(brewery.id)
             )
             .commit()
+        log("launchFragmentOnLandscapeMode")
     }
 
-    private fun launchFragmentOnPaneMode(brewery: BreweryItem) {
+    private fun launchFragmentOnPortraitMode(brewery: BreweryItem) {
         parentFragmentManager.beginTransaction()
             .replace(
                 R.id.breweries_fragment_container,
@@ -101,11 +136,19 @@ class BreweriesFragment : Fragment() {
             .commit()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+        log("onDestroy")
+    }
+
     private fun log(string: String) {
-        Log.d("TAG", string)
+        Log.d("BreweriesFragment_TAG", string)
     }
 
     companion object {
+        private const val KEY_ID = "id"
+
         fun newInstance(): Fragment {
             return BreweriesFragment()
         }

@@ -15,16 +15,35 @@ class BreweriesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        setFragment()
+        savedInstanceState ?: fragmentSetup()
+        log("savedInstanceState $savedInstanceState")
     }
 
-    private fun setFragment() {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(
-                R.id.breweries_fragment_container,
-                BreweriesFragment.newInstance()
-            )
-            .commit()
+    private fun fragmentSetup() {
+        val portFragment =
+            supportFragmentManager.findFragmentById(R.id.breweries_fragment_container)
+        val landFragment =
+            supportFragmentManager.findFragmentById(R.id.breweries_fragment_container_land)
+        if (landFragment == null) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(
+                    R.id.breweries_fragment_container,
+                    BreweriesFragment.newInstance()
+                )
+                .commit()
+        } else if (portFragment == null) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(
+                    R.id.breweries_fragment_container_land,
+                    BreweriesFragment()
+                )
+                .commit()
+        }
+    }
+
+    private fun log(string: String) {
+        Log.d("BreweriesActivity_TAG", string)
     }
 }

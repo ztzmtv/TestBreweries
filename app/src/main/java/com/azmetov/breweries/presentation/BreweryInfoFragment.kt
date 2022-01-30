@@ -1,6 +1,7 @@
 package com.azmetov.breweries.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,8 @@ class BreweryInfoFragment : Fragment() {
         ViewModelProvider(this)[BreweriesViewModel::class.java]
     }
 
+    private var id: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,11 +31,22 @@ class BreweryInfoFragment : Fragment() {
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if (id == null) id = savedInstanceState?.getString(EXTRA_ID)
+        log("onCreate $id")
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val id = requireArguments().getString(EXTRA_ID) ?: throw RuntimeException("id is null")
-        viewModel.getBreweryInfo(id)
+        val extraId =
+            requireArguments().getString(EXTRA_ID) ?: throw RuntimeException("id is null")
+
+        id = extraId
+        log("onViewCreated $extraId")
+        viewModel.getBreweryInfo(extraId)
         viewModel.breweryItem.observe(viewLifecycleOwner) {
             with(binding) {
                 setBreweryInfoText(
@@ -54,6 +68,13 @@ class BreweryInfoFragment : Fragment() {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putString(EXTRA_ID, id)
+        log("onSaveInstanceState $id")
+    }
+
     private fun setBreweryInfoText(templateId: Int, textView: TextView, item: String?) {
         val template = requireContext().resources.getString(templateId)
         textView.text = String.format(template, item ?: SYMBOL_IF_EMPTY)
@@ -64,7 +85,12 @@ class BreweryInfoFragment : Fragment() {
         _binding = null
     }
 
+    private fun log(string: String) {
+        Log.d(TAG, string)
+    }
+
     companion object {
+        private const val TAG = "BreweryInfoFragment_TAG"
         private const val EXTRA_ID = "id"
         private const val SYMBOL_IF_EMPTY = "-"
 

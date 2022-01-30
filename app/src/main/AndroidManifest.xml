@@ -14,7 +14,8 @@
         android:theme="@style/Theme.Breweries">
         <activity
             android:name=".presentation.BreweriesActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
