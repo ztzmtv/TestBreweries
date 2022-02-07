@@ -23,7 +23,7 @@ class BreweriesActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(
                 R.id.breweries_fragment_container,
-                BreweriesFragment.newInstance()
+                BreweriesFragmentWithPaging.newInstance()
             )
             .commit()
     }

@@ -27,4 +27,15 @@ class BreweryMapper {
         phone = dbModel.phone,
         name = dbModel.name
     )
+
+    fun mapDtoToEntity(dto: BreweryDto) = BreweryInfo(
+        id = dto.id,
+        country = dto.country,
+        breweryType = dto.breweryType,
+        city = dto.city,
+        address = dto.address,
+        websiteUrl = dto.websiteUrl,
+        phone = dto.phone,
+        name = dto.name
+    )
 }
