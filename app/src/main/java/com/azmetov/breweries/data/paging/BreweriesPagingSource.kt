@@ -1,7 +1,9 @@
 package com.azmetov.breweries.data.paging
 
+import android.app.Application
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.azmetov.breweries.data.database.AppDatabase
 import com.azmetov.breweries.data.mapper.BreweryMapper
 import com.azmetov.breweries.data.network.ApiService
 import com.azmetov.breweries.domain.BreweryInfo
@@ -9,8 +11,12 @@ import retrofit2.HttpException
 import java.io.IOException
 
 class BreweriesPagingSource(
+    application: Application,
     private val service: ApiService
 ) : PagingSource<Int, BreweryInfo>() {
+
+    private val breweryInfoDao = AppDatabase.getInstance(application).breweryInfoDao()
+
     override fun getRefreshKey(state: PagingState<Int, BreweryInfo>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
@@ -20,23 +26,28 @@ class BreweriesPagingSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, BreweryInfo> {
         val mapper = BreweryMapper()
-        val pageIndex = params.key ?: STARTING_PAGE_INDEX
+        val pageNumber = params.key ?: STARTING_PAGE_INDEX
         return try {
             val response = service.getListOfBreweries(
                 per_page = DEFAULT_PER_PAGE,
-                page = pageIndex
+                page = pageNumber
             )
             val breweries = mutableListOf<BreweryInfo>()
+            val breweryInfoDbModel = response.map {
+                mapper.mapDtoToDbModel(it)
+            }
+            breweryInfoDao.insertBreweriesList(breweryInfoDbModel)
+
             response.forEach { breweries.add(mapper.mapDtoToEntity(it)) }
             val nextKey =
                 if (breweries.isEmpty()) {
                     null
                 } else {
-                    pageIndex + (params.loadSize / DEFAULT_PER_PAGE)
+                    pageNumber + (params.loadSize / DEFAULT_PER_PAGE)
                 }
             LoadResult.Page(
                 data = breweries,
-                prevKey = if (pageIndex == STARTING_PAGE_INDEX) null else pageIndex,
+                prevKey = if (pageNumber == STARTING_PAGE_INDEX) null else pageNumber,
                 nextKey = nextKey
             )
         } catch (exception: IOException) {
@@ -48,6 +59,6 @@ class BreweriesPagingSource(
 
     companion object {
         private const val STARTING_PAGE_INDEX = 1
-        private const val DEFAULT_PER_PAGE = 20
+        private const val DEFAULT_PER_PAGE = 10
     }
 }

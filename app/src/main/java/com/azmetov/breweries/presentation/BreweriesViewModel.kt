@@ -21,10 +21,15 @@ import kotlinx.coroutines.launch
 class BreweriesViewModel(
     application: Application
 ) : AndroidViewModel(application) {
+
     private val repository = BreweriesRepositoryImpl(application)
 
+    val _app = application
+
     private val loadDataUseCase = LoadDataUseCase(repository)
+
     private val getBreweriesListUseCase = GetBreweriesListUseCase(repository)
+
     private val getBreweryInfoUseCase = GetBreweryInfoUseCase(repository)
 
     val breweriesList = getBreweriesListUseCase()
@@ -49,7 +54,7 @@ class BreweriesViewModel(
                 pageSize = NETWORK_PAGE_SIZE,
 //                enablePlaceholders = false
             ),
-            pagingSourceFactory = { BreweriesPagingSource(apiService) }
+            pagingSourceFactory = { BreweriesPagingSource(_app, apiService) }
         ).flow
     }
 

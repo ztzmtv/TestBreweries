@@ -55,7 +55,7 @@ class BreweriesFragmentWithPaging : Fragment() {
         binding.rvBreweries.adapter = adapter
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getBreweriesResultStream().collectLatest {
-                adapter?.submitData(it)
+                adapter.submitData(it)
             }
         }
 
