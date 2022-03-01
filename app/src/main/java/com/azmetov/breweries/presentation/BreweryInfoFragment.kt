@@ -1,5 +1,6 @@
 package com.azmetov.breweries.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,11 @@ class BreweryInfoFragment : Fragment() {
 
     private val viewModel by lazy {
         ViewModelProvider(this, viewModelFactory)[BreweriesViewModel::class.java]
+    }
+
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
     }
 
     override fun onCreateView(
