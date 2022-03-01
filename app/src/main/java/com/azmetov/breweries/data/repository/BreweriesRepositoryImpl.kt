@@ -8,8 +8,9 @@ import com.azmetov.breweries.data.mapper.BreweryMapper
 import com.azmetov.breweries.data.network.ApiFactory
 import com.azmetov.breweries.domain.BreweriesRepository
 import com.azmetov.breweries.domain.BreweryInfo
+import javax.inject.Inject
 
-class BreweriesRepositoryImpl(
+class BreweriesRepositoryImpl @Inject constructor(
     private val application: Application
 ) : BreweriesRepository {
 

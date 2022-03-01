@@ -1,8 +1,9 @@
 package com.azmetov.breweries.domain
 
 import androidx.lifecycle.LiveData
+import javax.inject.Inject
 
-class GetBreweryInfoUseCase(private val repository: BreweriesRepository) {
+class GetBreweryInfoUseCase @Inject constructor(private val repository: BreweriesRepository) {
 
     suspend operator fun invoke(id: String): BreweryInfo {
         return repository.getBreweryInfo(id)

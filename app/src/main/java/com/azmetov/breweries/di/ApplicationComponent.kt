@@ -5,7 +5,7 @@ import com.azmetov.breweries.presentation.BreweriesFragment
 import dagger.BindsInstance
 import dagger.Component
 
-@Component(modules = [DataModule::class])
+@Component(modules = [DataModule::class, ViewModelModule::class])
 interface ApplicationComponent {
 
     fun inject(fragment: BreweriesFragment)

@@ -9,14 +9,22 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.azmetov.breweries.R
 import com.azmetov.breweries.databinding.FragmentBreweryInfoBinding
+import javax.inject.Inject
 
 class BreweryInfoFragment : Fragment() {
     private var _binding: FragmentBreweryInfoBinding? = null
     private val binding: FragmentBreweryInfoBinding
         get() = _binding ?: throw RuntimeException("BreweryInfoFragment is null")
 
+    private val component by lazy {
+        (requireActivity().application as BreweriesApp).component
+    }
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
     private val viewModel by lazy {
-        ViewModelProvider(this)[BreweriesViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[BreweriesViewModel::class.java]
     }
 
     override fun onCreateView(

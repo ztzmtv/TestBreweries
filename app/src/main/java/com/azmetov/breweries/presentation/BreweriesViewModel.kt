@@ -15,9 +15,9 @@ class BreweriesViewModel @Inject constructor(
     private val loadDataUseCase: LoadDataUseCase,
     private val getBreweriesListUseCase: GetBreweriesListUseCase,
     private val getBreweryInfoUseCase: GetBreweryInfoUseCase,
-    private val _breweryItem: MutableLiveData<BreweryInfo>
 ) : ViewModel() {
 
+    private val _breweryItem = MutableLiveData<BreweryInfo>()
     val breweriesList = getBreweriesListUseCase()
 
     val breweryItem: LiveData<BreweryInfo>
